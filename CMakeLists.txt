@@ -33,20 +33,8 @@ add_custom_target(
 )
 
 
-# Initially create generated files, if they don't yet exist
-if( NOT EXISTS ${CMAKE_BINARY_DIR}/outputs/generated.timestamp )
-  message( "-- Running autogen" )
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -e mkdir -p ${CMAKE_BINARY_DIR}/outputs
-
-    COMMAND
-    python ${CMAKE_CURRENT_SOURCE_DIR}/autogen.py
-    --input-dir ${CMAKE_CURRENT_SOURCE_DIR}/inputs
-    --output-dir ${CMAKE_BINARY_DIR}/outputs
-    --cmake ${CMAKE_BINARY_DIR}/outputs/generated_srcs.cmake
-
-    COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/outputs/generated.timestamp
-    )
+if( EXISTS ${CMAKE_BINARY_DIR}/outputs/generated_srcs.cmake )
+  include( ${CMAKE_CURRENT_BINARY_DIR}/outputs/generated_srcs.cmake )
 endif()
 
 
@@ -55,8 +43,6 @@ set (SOURCES
   )
 
 
-# Include list of generated files to build the library
-include( ${CMAKE_CURRENT_BINARY_DIR}/outputs/generated_srcs.cmake )
 
 add_executable(cmk ${SOURCES} ${GENERATED_SRCS})
 add_dependencies(cmk autogen)

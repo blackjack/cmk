@@ -18,7 +18,6 @@ args.input_dir = os.path.abspath(args.input_dir)
 args.output_dir = os.path.abspath(args.output_dir)
 args.cmake = os.path.abspath(args.cmake)
 
-
 input_files = []
 
 for _, _, files in os.walk(args.input_dir):
@@ -44,7 +43,6 @@ void %s::print() {
 
 cmake_template = """
 set(GENERATED_SRCS "%s" CACHE INTERNAL "")
-message("SOURCES: ${GENERATED_SRCS}")
 """
 
 output_files = []
